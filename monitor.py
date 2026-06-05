@@ -1,0 +1,51 @@
+import json
+from datetime import datetime
+
+input_file = "app.log"
+important_file = "important.log"
+summary_file = "important_summary.json"
+script_log_file = "script.log"
+
+warning_count = 0
+error_count = 0
+important_lines = []
+
+with open(input_file, "r") as file:
+    for line in file:
+        if "WARNING" in line:
+            warning_count += 1
+            important_lines.append(line)
+        elif "ERROR" in line:
+            error_count += 1
+            important_lines.append(line)
+
+with open(important_file, "w") as file:
+    for line in important_lines:
+        file.write(line)
+
+total_important_count = warning_count + error_count
+
+if error_count > 0:
+    status = "NG"
+else:
+    status = "OK"
+
+summary = {
+    "warning_count": warning_count,
+    "error_count": error_count,
+    "total_important_count": total_important_count,
+    "status": status
+}
+
+with open(summary_file, "w") as file:
+    json.dump(summary, file, indent=4)
+
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+with open(script_log_file, "a") as file:
+    file.write(f"{now} monitor.py executed\n")
+
+print("Log monitoring completed.")
+print(f"WARNING: {warning_count}")
+print(f"ERROR: {error_count}")
+print(f"STATUS: {status}")

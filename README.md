@@ -115,7 +115,26 @@ cat script.log
 このコマンドは、Pythonプログラムがいつ実行されたかなどを確認するために使います。
 
 ---
+## 実行例
 
+以下のコマンドでツールを実行します。
+
+```bash
+python3 monitor.py
+```
+
+実行結果:
+
+```text
+Log monitoring completed.
+WARNING: 2
+ERROR: 2
+STATUS: NG
+```
+
+この結果から、`app.log` の中に WARNING が2件、ERROR が2件あり、ERROR が存在するためステータスは `NG` と判定されます。
+
+---
 ## 出力例
 
 ### important.log

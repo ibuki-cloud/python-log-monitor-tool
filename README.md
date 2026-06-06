@@ -142,6 +142,7 @@ STATUS: NG
 ```text
 WARNING Disk usage is high
 ERROR Failed to connect to database
+WARNING Memory usage is high
 ERROR Timeout occurred
 ```
 
@@ -149,9 +150,9 @@ ERROR Timeout occurred
 
 ```json
 {
-    "warning_count": 1,
+    "warning_count": 2,
     "error_count": 2,
-    "total_important_count": 3,
+    "total_important_count": 4,
     "status": "NG"
 }
 ```

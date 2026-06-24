@@ -58,7 +58,21 @@ python-log-monitor-tool/
 ├── script.log
 └── README.md
 ```
+---
 
+## monitor.py の関数構成
+
+`monitor.py` は、処理を役割ごとに関数へ分けています。
+
+| 関数名 | 役割 |
+|---|---|
+| `make_important_log()` | `app.log` から `WARNING` / `ERROR` を含む行を抽出し、`important.log` に保存する |
+| `count_important_logs()` | `important.log` を読み込み、WARNING件数、ERROR件数、合計件数、状態を集計する |
+| `save_important_summary(summary_data)` | 集計結果を `important_summary.json` にJSON形式で保存する |
+| `write_script_log()` | `monitor.py` を実行した日時を `script.log` に追記する |
+| `main()` | 上記の関数を順番に実行し、ツール全体の流れを管理する |
+
+このように関数ごとに役割を分けることで、処理の流れが分かりやすくなり、あとから機能を追加しやすくなります。
 ---
 
 ## 各ファイルの役割

@@ -1,7 +1,11 @@
 import json
+import sys
 from datetime import datetime
 
-input_file = "app.log"
+if len(sys.argv) >= 2:
+    input_file = sys.argv[1]
+else:
+    input_file = "app.log"
 important_file = "important.log"
 summary_file = "important_summary.json"
 script_log_file = "script.log"

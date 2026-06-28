@@ -71,7 +71,9 @@ def main():
     write_script_log()
 
     print("Log monitoring completed.")
-    print(summary_data)
+    print(f"WARNING: {summary_data['warning_count']}")
+    print(f"ERROR: {summary_data['error_count']}")
+    print(f"STATUS: {summary_data['status']}")
 
 
 if __name__ == "__main__":

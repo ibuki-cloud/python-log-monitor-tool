@@ -16,7 +16,7 @@ def make_important_log():
 
     with open(input_file, "r") as file:
         for line in file:
-            if "WARNING" in line or "ERROR" in line:
+            if "WARNING" in line or "ERROR" in line or "CRITICAL" in line:
                 important_lines.append(line)
 
     with open(important_file, "w") as file:
@@ -27,6 +27,7 @@ def make_important_log():
 def count_important_logs():
     warning_count = 0
     error_count = 0
+    critical_count = 0
 
     with open(important_file, "r") as file:
         for line in file:
@@ -34,10 +35,12 @@ def count_important_logs():
                 warning_count += 1
             elif "ERROR" in line:
                 error_count += 1
+            elif "CRITICAL" in line:
+                critical_count += 1
 
-    total_important_count = warning_count + error_count
+    total_important_count = warning_count + error_count + critical_count
 
-    if error_count > 0:
+    if error_count > 0 or critical_count > 0:
         status = "NG"
     else:
         status = "OK"
@@ -45,6 +48,7 @@ def count_important_logs():
     summary_data = {
         "warning_count": warning_count,
         "error_count": error_count,
+        "critical_count": critical_count,
         "total_important_count": total_important_count,
         "status": status
     }
@@ -73,6 +77,7 @@ def main():
     print("Log monitoring completed.")
     print(f"WARNING: {summary_data['warning_count']}")
     print(f"ERROR: {summary_data['error_count']}")
+    print(f"CRITICAL: {summary_data['critical_count']}")
     print(f"STATUS: {summary_data['status']}")
 
 

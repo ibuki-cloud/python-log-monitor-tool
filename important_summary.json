@@ -1,6 +1,7 @@
 {
     "warning_count": 1,
     "error_count": 1,
-    "total_important_count": 2,
+    "critical_count": 1,
+    "total_important_count": 3,
     "status": "NG"
 }

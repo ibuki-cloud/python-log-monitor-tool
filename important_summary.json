@@ -3,5 +3,7 @@
     "error_count": 1,
     "critical_count": 1,
     "total_important_count": 3,
+    "total_log_count": 7,
+    "error_rate": 28.57,
     "status": "NG"
 }

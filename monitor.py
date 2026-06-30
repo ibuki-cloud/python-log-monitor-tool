@@ -39,7 +39,18 @@ def count_important_logs():
                 critical_count += 1
 
     total_important_count = warning_count + error_count + critical_count
+    total_log_count = 0
 
+    with open(input_file, "r") as file:
+        for line in file:
+            total_log_count += 1
+
+    error_like_count = error_count + critical_count
+
+    if total_log_count > 0:
+        error_rate = round(error_like_count / total_log_count * 100, 2)
+    else:
+        error_rate = 0
     if error_count > 0 or critical_count > 0:
         status = "NG"
     else:
@@ -50,6 +61,8 @@ def count_important_logs():
         "error_count": error_count,
         "critical_count": critical_count,
         "total_important_count": total_important_count,
+        "total_log_count": total_log_count,
+        "error_rate": error_rate,
         "status": status
     }
 
@@ -78,8 +91,8 @@ def main():
     print(f"WARNING: {summary_data['warning_count']}")
     print(f"ERROR: {summary_data['error_count']}")
     print(f"CRITICAL: {summary_data['critical_count']}")
+    print(f"ERROR RATE: {summary_data['error_rate']}%")
     print(f"STATUS: {summary_data['status']}")
-
 
 if __name__ == "__main__":
     main()

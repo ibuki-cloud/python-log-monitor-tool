@@ -2,9 +2,9 @@
 
 ## 概要
 
-Python Log Monitor Tool は、ログファイルから `WARNING` と `ERROR` を含む行を抽出し、重要なログだけを別ファイルに保存するツールです。
+Python Log Monitor Tool は、ログファイルから `WARNING`、`ERROR`、`CRITICAL` を含む行を抽出し、重要なログだけを別ファイルに保存するツールです。
 
-また、WARNING件数、ERROR件数、合計件数、状態を JSON ファイルとして出力します。
+また、WARNING件数、ERROR件数、CRITICAL件数、合計件数、状態を JSON ファイルとして出力します。
 
 このツールは、インフラ運用で行う「ログ確認」「異常検知」「障害調査の初期対応」をイメージして作成しました。
 
@@ -25,9 +25,11 @@ AWS や Linux の学習を進める中で、サーバー運用ではログ確認
 - `app.log` を読み込む
 - `WARNING` を含む行を抽出する
 - `ERROR` を含む行を抽出する
+- `CRITICAL` を含む行を抽出する
 - 抽出した重要ログを `important.log` に保存する
 - WARNING件数を数える
 - ERROR件数を数える
+- CRITICAL件数を数える
 - 合計件数を数える
 - 結果を `important_summary.json` に保存する
 - Python自身の実行ログを `script.log` に保存する
@@ -66,8 +68,8 @@ python-log-monitor-tool/
 
 | 関数名 | 役割 |
 |---|---|
-| `make_important_log()` | `app.log` から `WARNING` / `ERROR` を含む行を抽出し、`important.log` に保存する |
-| `count_important_logs()` | `important.log` を読み込み、WARNING件数、ERROR件数、合計件数、状態を集計する |
+| `make_important_log()` | `app.log` から `WARNING` / `ERROR` / `CRITICAL` を含む行を抽出し、`important.log` に保存する |
+| `count_important_logs()` | `important.log` を読み込み、WARNING件数、ERROR件数、CRITICAL件数、合計件数、状態を集計する |
 | `save_important_summary(summary_data)` | 集計結果を `important_summary.json` にJSON形式で保存する |
 | `write_script_log()` | `monitor.py` を実行した日時を `script.log` に追記する |
 | `main()` | 上記の関数を順番に実行し、ツール全体の流れを管理する |
@@ -81,7 +83,7 @@ python-log-monitor-tool/
 |---|---|
 | `monitor.py` | メインのPythonプログラム |
 | `app.log` | 読み込む元のログファイル |
-| `important.log` | WARNING / ERROR を抽出した結果 |
+| `important.log` | WARNING / ERROR / CRITICAL を抽出した結果 |
 | `important_summary.json` | 件数や状態をまとめたJSONファイル |
 | `script.log` | Pythonプログラム自身の実行ログ |
 | `README.md` | このツールの説明書 |
@@ -114,7 +116,7 @@ python3 monitor.py app.log
 cat important.log
 ```
 
-このコマンドは、抽出された WARNING / ERROR のログを表示します。
+このコマンドは、抽出された WARNING / ERROR / CRITICAL のログを表示します。
 
 ---
 
@@ -124,7 +126,7 @@ cat important.log
 cat important_summary.json
 ```
 
-このコマンドは、WARNING件数、ERROR件数、合計件数、状態を表示します。
+このコマンドは、WARNING件数、ERROR件数、CRITICAL件数、合計件数、状態を表示します。
 
 ---
 
@@ -149,12 +151,13 @@ python3 monitor.py
 
 ```text
 Log monitoring completed.
-WARNING: 2
-ERROR: 2
+WARNING: 1
+ERROR: 1
+CRITICAL: 1
 STATUS: NG
 ```
 
-この結果から、`app.log` の中に WARNING が2件、ERROR が2件あり、ERROR が存在するためステータスは `NG` と判定されます。
+この結果から、`app.log` の中に WARNING が1件、ERROR が1件、CRITICAL が1件あり、ERROR または CRITICAL が存在するためステータスは `NG` と判定されます。
 
 ---
 ## 出力例
@@ -210,7 +213,6 @@ ERROR Timeout occurred
 
 今後は、以下の機能を追加したいです。
 
-- `CRITICAL` など他のログレベルにも対応する
 - エラー率を計算する
 - 一定以上のエラーが出たらアラートを出す
 - AWS CloudWatch Logs のような監視サービスとの違いを整理する
